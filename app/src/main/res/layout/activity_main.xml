@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#FFFFFF"
+    android:foregroundTint="#FFFFFF"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp">
+
+<!--    android:layout_marginHorizontal="20dp"-->
+<!--    android:layout_marginVertical="20dp"-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/signin_text"
+        android:paddingVertical="30dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/turquoise"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        />
+
+
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text= "@string/email_text"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:textSize="15sp"
+        android:textAlignment="textStart"
+        android:paddingVertical="8dp"
+        />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/entered_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text= "@string/password_text"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:textSize="15sp"
+        android:paddingVertical="15dp"
+        />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="password_toggle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/entered_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/login_text"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/turquoise"
+        android:paddingHorizontal="40dp"
+
+        />
+</LinearLayout>
