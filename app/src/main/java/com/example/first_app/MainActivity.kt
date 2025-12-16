@@ -22,42 +22,68 @@ import com.example.first_app.utils.showTopSnackbar
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         //------ Align within SafeAre Avoid status bar space,navigation height, side insets -------
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main))
-        { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.root)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            v.setPadding(
+                maxOf(systemBars.left, cutout.left) ,
+                maxOf(systemBars.top, cutout.top),
+                maxOf(systemBars.right, cutout.right) ,
+                maxOf(systemBars.bottom, cutout.bottom)
+            )
             insets
         }
+
         //-------------------------------------Align within SafeAre--------------------------------
 
+        var emailText = ""
         val email : TextInputEditText = findViewById(R.id.entered_email)
         email.addTextChangedListener {
             val text = it.toString()
             println(text)
+            emailText = text
 
         }
 
-
+        var passwordText =""
         val password : TextInputEditText = findViewById(R.id.entered_password)
         password.addTextChangedListener{
             val text = it.toString()
             println(text)
+            passwordText = text
         }
 
 
         val  button : Button = findViewById(R.id.login_button)
         button.setOnClickListener {
-            val text : String = "Successfully logged in."
+            var text : String = ""
+                if(emailText.isEmpty()){
+                    text = "Enter email"
+                    showTopSnackbar(activity = this, message = text, backgroundColorRes = R.color.red, textColorRes = R.color.white)
+                }
+                else if (passwordText.isEmpty()){
+                    text = "Enter password"
+                    showTopSnackbar(activity = this, message = text, backgroundColorRes = R.color.red, textColorRes = R.color.white)
+                }
+                else {
+
+
+                    text = "Successfully logged in."
 //            val duration = Toast.LENGTH_SHORT
 //            Toast.makeText(this, text, duration).show()
-            println("Logged In")
+                    println("Logged In")
 
-            showTopSnackbar(activity = this, message = text, backgroundColorRes = R.color.green, textColorRes =  R.color.white
-            )
+                    showTopSnackbar(
+                        activity = this,
+                        message = text,
+                        backgroundColorRes = R.color.green,
+                        textColorRes = R.color.white
+                    )
+                }
 //
 //            val snackbar1 = Snackbar.make(
 //                findViewById(android.R.id.content),
