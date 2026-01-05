@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.first_app.ui.LoginFragment
 import com.google.android.material.snackbar.Snackbar
 
 fun showTopSnackbar(
@@ -19,7 +20,7 @@ fun showTopSnackbar(
     textColorRes: Int,
     duration: Int = Snackbar.LENGTH_SHORT
 ) {
-    val rootView = activity.findViewById<View>(android.R.id.content)
+    val rootView  = activity.findViewById<View>(android.R.id.content)
 
 
     val snackbar: Snackbar = Snackbar.make(
