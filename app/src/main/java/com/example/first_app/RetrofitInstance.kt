@@ -11,16 +11,28 @@ class RetrofitInstance {
     //Companion object consists of Singleton objects basically like static keywords
 
     companion object {
-        val mainUrl = "https://api.jiosaavn.com/"
-        val api: SongService by lazy {
+
+        val mainUrl = "https://api.escuelajs.co/api/v1/"
+        val api: UserService by lazy {
             Retrofit.Builder()
                 .baseUrl(mainUrl)
                 .addConverterFactory(
                     GsonConverterFactory.create(GsonBuilder().create())
                 )
                 .build()
-                .create(SongService::class.java)
+                .create(UserService::class.java)
         }
+
+//        val mainUrl ="https://api.jiosaavn.com/"
+//        val api: SongService by lazy {
+//            Retrofit.Builder()
+//                .baseUrl(mainUrl)
+//                .addConverterFactory(
+//                    GsonConverterFactory.create(GsonBuilder().create())
+//                )
+//                .build()
+//                .create(SongService::class.java)
+//        }
 
 
 //        fun getRetrofitInstance(): Retrofit {

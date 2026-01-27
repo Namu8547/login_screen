@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.first_app.ui.HomeFragment
+import com.example.first_app.ui.LoginFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,6 +22,11 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_home, HomeFragment())
+            .commit()
+
+
 
 
 

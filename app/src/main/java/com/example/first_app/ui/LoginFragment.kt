@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 
 import androidx.core.widget.addTextChangedListener
 import com.example.first_app.HomeActivity
@@ -13,12 +14,17 @@ import com.example.first_app.MainActivity
 import com.example.first_app.R
 import com.example.first_app.utils.showTopSnackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
 
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
+    private lateinit var auth : FirebaseAuth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        auth = FirebaseAuth.getInstance()
 
 
         //-------------------------------------Align within SafeAre--------------------------------
@@ -45,9 +51,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         }
 
-
-        val  button : Button = view.findViewById(R.id.login_button)
-        button.setOnClickListener {
+        val  loginButton : Button = view.findViewById(R.id.login_button)
+        loginButton.setOnClickListener {
             var text : String = ""
             if(emailText.isEmpty()){
                 text = "Enter email"
@@ -59,6 +64,44 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 showTopSnackbar(activity = requireActivity(), message = text, backgroundColorRes = R.color.red, textColorRes = R.color.white)
                 return@setOnClickListener
             }
+            else{
+                auth.signInWithEmailAndPassword(emailText, passwordText).addOnCompleteListener { task ->
+                    if (task.isSuccessful){
+                        Toast.makeText(context, "Login successfully", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(view.context, HomeActivity::class.java))
+                        requireActivity().finish()
+                        val database = Firebase.database
+                        val myRef = database.getReference("message")
+
+                        myRef.setValue("Hello, World!")
+                    }
+                    else if(task.exception?.message == "The password is invalid or the user does not have a password."){
+                    Toast.makeText(context, "Invalid password", Toast.LENGTH_LONG).show()
+}
+                    else {
+                        Toast.makeText(context, "Failed to login", Toast.LENGTH_LONG).show()
+                    }
+
+                }
+            }
+
+        }
+
+        val  registerButton : Button = view.findViewById(R.id.register_button)
+        registerButton.setOnClickListener {
+
+            var text : String = ""
+            if(emailText.isEmpty()){
+                text = "Enter email"
+                showTopSnackbar(activity = requireActivity(), message = text, backgroundColorRes = R.color.red, textColorRes = R.color.white)
+                return@setOnClickListener
+            }
+            else if (passwordText.isEmpty()){
+                text = "Enter password"
+                showTopSnackbar(activity = requireActivity(), message = text, backgroundColorRes = R.color.red, textColorRes = R.color.white)
+                return@setOnClickListener
+            }
+
             else {
 
 
@@ -73,18 +116,31 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 //                        backgroundColorRes = R.color.green,
 //                        textColorRes = R.color.white
 //                    )
-                editor.putString("email", emailText)
-                editor.putString("password", passwordText)
-                editor.putBoolean("isLoggedIn", true )
-                editor.apply()
+                auth.createUserWithEmailAndPassword(emailText, passwordText).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(context, "Registration successful! Please login", Toast.LENGTH_LONG).show()
+                        // if the user created intent to login activity
 
-                val getEmail = sharedPreferences.getString("email", "")
-                val getPassword = sharedPreferences.getString("password", "")
-                println("Email: $getEmail Password: $getPassword")
+                    }
+                    else if (task.exception?.message == "The email address is already in use by another account."){
+                        Toast.makeText(context, "Email is already registered, please login", Toast.LENGTH_LONG).show()
+                }
+                    else {
+                        // Registration failed
+                        Toast.makeText(context, "Registration failed!!" + " Please try again later", Toast.LENGTH_LONG).show()
+                    }}
+//                editor.putString("email", emailText)
+//                editor.putString("password", passwordText)
+//                editor.putBoolean("isLoggedIn", true )
+//                editor.apply()
+//
+//                val getEmail = sharedPreferences.getString("email", "")
+//                val getPassword = sharedPreferences.getString("password", "")
+//                println("Email: $getEmail Password: $getPassword")
 
 
-                startActivity(Intent(view.context, HomeActivity::class.java))
-                requireActivity().finish()
+//                startActivity(Intent(view.context, HomeActivity::class.java))
+//                requireActivity().finish()
 
 // .              ------------------Success Dialog -------------------
 //                val dialog =  AlertDialog.Builder(view.context)

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+
+    android:background="#00FFFFFF"
+    app:cardBackgroundColor="#00FFFFFF"
+    app:circularflow_defaultRadius="30dp"
+    app:circularflow_radiusInDP="30dp"
+    app:layout_constraintCircleRadius="30dp"
+    app:strokeWidth="0dp"
+    tools:ignore="color">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            app:circularflow_defaultRadius="20dp"
+            app:circularflow_radiusInDP="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:shapeAppearanceOverlay="@style/SongImageCircularBorderView"
+            app:srcCompat="@drawable/user_img" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center_vertical"
+            android:text="User Name"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/userImage"
+            tools:layout_editor_absoluteY="5dp" />
+
+        <TextView
+            android:id="@+id/userEmail"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:fontFamily="@font/poppins"
+            android:text="Email"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:padding="0dp"
+            app:layout_constraintLeft_toLeftOf="@id/userImage"
+            app:layout_constraintTop_toBottomOf="@id/userName" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/black"
+            android:contextClickable="true"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:cornerRadius="45dp"
+            app:icon="@android:drawable/ic_dialog_info"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="18dp"
+            app:iconTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

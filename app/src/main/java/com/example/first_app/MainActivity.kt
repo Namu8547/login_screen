@@ -1,31 +1,99 @@
 package com.example.first_app
-
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-
 import com.example.first_app.ui.LoginFragment
-
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import android.Manifest
+import android.util.Log
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var firebaseAuth : FirebaseAuth;
+    private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
 
-        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
 
-        val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
-        if(isUserLoggedIn){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "default_channel",
+                "Default Notifications",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1001
+                )
+            }
+        }
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("FCM_TEST", "Token: ${task.result}")
+                } else {
+                    Log.e("FCM_TEST", "Token fetch failed", task.exception)
+                }
+            }
+
+
+
+
+
+
+        Thread.sleep(3000)
+        installSplashScreen()
+        enableEdgeToEdge()
+
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        val currentUser = firebaseAuth.currentUser
+
+        if(currentUser != null){
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
             return
+        }
 
-    }
+//        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//
+//        val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+//        if(isUserLoggedIn == false){
+//            startActivity(Intent(this, HomeActivity::class.java))
+//            finish()
+//            return
+//    }
+        
         setContentView(R.layout.activity_main)
 
         WindowInsetsControllerCompat(window, window.decorView).apply {
